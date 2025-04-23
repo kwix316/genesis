@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제네시스 G90 Black - 모델소개 | 제네시스</title>
+        <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="../../genesis-kr-favicon.png" type="image/x-icon">
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+        <style>
+            /* 예시 CSS: 실제 디자인에 맞게 조정 필요 */
+            .site-navi-bar {
+                position: relative; /* 헤더 기본 위치 */
+                z-index: 1000; /* 다른 요소 위에 오도록 */
+            }
+
+            .site-navi-bar.model-nav-fixed {
+                 /* 헤더 자체는 고정하지 않고, 내부 model_nav만 고정 */
+            }
+
+            .site-navi-bar.model-nav-fixed .model_nav {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                /* 필요한 배경색, 그림자 등 추가 */
+                background-color: #fff; /* 예시: 흰색 배경 */
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* 예시: 그림자 */
+                z-index: 999; /* nav_parent보다 위에 오도록 (필요시) */
+            }
+
+            /* nav_parent가 숨겨질 때 body 상단 여백 (선택 사항, 헤더 디자인에 따라 필요 없을 수 있음) */
+            /* body.has-fixed-model-nav { */
+               /* padding-top: [model_nav 높이]px; */
+               /* 예: padding-top: 60px; */
+            /* } */
+
+            .site-navi-bar .nav_parent {
+              /* GSAP으로 transform을 제어하므로 transition은 제거하거나 GSAP과 동기화 */
+               transform: translateY(0);
+            }
+
+            /* Ensure layers are correctly positioned initially */
+            .d_layer {
+                position: fixed; /* Or absolute depending on design */
+                top: 0;
+                left: 0;
+                width: 100%;
+                /* ... other styles ... */
+                transform: translateY(-100%); /* Start hidden above */
+                opacity: 0;
+                visibility: hidden;
+            }
+            .m_layer {
+                 position: fixed; /* Or absolute */
+                 top: 0;
+                 right: 0; /* Assuming it slides from right */
+                 width: [your-menu-width]; /* e.g., 80% or 300px */
+                 height: 100%;
+                 /* ... other styles ... */
+                 transform: translateX(100%); /* Start hidden off-screen */
+                 display: none;
+            }
+
+            /* Hamburger icon lines */
+            .layer_open .line {
+                /* Base styles for lines */
+                 display: block;
+                 width: 20px; /* Example */
+                 height: 2px; /* Example */
+                 background-color: #000; /* Example */
+                 margin: 4px auto; /* Example */
+                 position: relative; /* Needed for top animation */
+                 transition: none; /* Remove CSS transition if GSAP controls it */
+            }
+        </style>
+  </head>
+  <body>
+    <div id="wrapper">
+      <div class="nav_bar">
+             <header class="site-navi-bar">
+                 <div class="nav_parent">
+                     <nav>
+                         <div class="logo">
+                             <a href="../../index.html" title="Genesis">
+                                 <img src="../../img/logo.png" alt="Genesis Logo" />
+                             </a>
+                         </div>
+                         <div class="main-navigation">
+                             <ul class="main_nav">
+                                 <li><a href="">모델</a></li>
+                                 <li><a href="">구매</a></li>
+                                 <li><a href="">체험</a></li>
+                                 <li><a href="">멤버스</a></li>
+                                 <li><a href="">제네시스</a></li>
+                             </ul>
+                         </div>
+                         <div class="sub-navigation">
+                             <div class="desktop_sub_nav">
+                                 <ul class="sub_nav">
+                                     <li><a href="">고객센터</a></li>
+                                     <li><a href="">마이 페이지</a></li>
+                                 </ul>
+                             </div>
+                             <div class="mobile_sub_nav">
+                                 <ul class="sub_nav">
+                                     <li>
+                                         <a href="">
+                                             고객센터
+                                             <div class="img_icon">
+                                                 <img src="../../img/genesis-kr-gnb-support-icon-01-tablet-17x17-ko.png" alt="" />
+                                             </div>
+                                         </a>
+                                     </li>
+                                     <li>
+                                         <a href="">
+                                             마이 페이지
+                                             <div class="img_icon">
+                                                 <img src="../../img/genesis-kr-gnb-mypage-icon-01-tablet-34x38-ko.png" alt="" />
+                                             </div>
+                                         </a>
+                                     </li>
+                                 </ul>
+                             </div>
+                             <div class="search">
+                                 <button type="button" class="search_icon" aria-label="검색 열기"></button>
+                             </div>
+                             <div class="sitemap">
+                                  <button type="button" class="layer_open" aria-label="사이트맵 열기" aria-expanded="false">
+                                     <span class="line"></span>
+                                     <span class="line"></span>
+                                     <span class="line"></span>
+                                 </button>
+                             </div>
+                         </div>
+                     </nav>
+                      <div class="d_layer" aria-hidden="true" role="dialog" aria-modal="true">
+                         <div class="d_layer_inner">
+                             <div class="d_layer_logo">
+                                 <span class="d_layer_logo_img">
+                                     <img src="../../img/logo.png" alt="Genesis Logo" />
+                                 </span>
+                             </div>
+                             <div class="d_search_input_box">
+                                 <input id="d_search_input" type="text" class="d_search_input" placeholder=" "/> 
+                                 <label for="d_search_input" class="d_search_label">검색어를 입력해주세요.</label>
+                                 <button type="button" class="btn_search" aria-label="검색"></button>
+                             </div>
+                             <div class="d_site_link">
+                                  <div class="d_link_box">
+                                     <strong>모델</strong>
+                                     <ul class="link_list">
+                                         <li><a href="#">G90 Black</a></li>
+                                         <li><a href="#">GV80 Coupe Black</a></li>
+                                         <li><a href="#">GV80 Black</a></li>
+                                         <li><a href="#">G90 Long Wheel Base</a></li>
+                                         <li><a href="#">G90</a></li>
+                                         <li><a href="#">G80</a></li>
+                                         <li><a href="#">Electrified G80</a></li>
+                                         <li><a href="#">G70</a></li>
+                                         <li><a href="#">G70 Shooting Brake</a></li>
+                                         <li><a href="#">GV80 Coupe</a></li>
+                                         <li><a href="#">GV80</a></li>
+                                         <li><a href="#">GV70</a></li>
+                                         <li><a href="#">Electrified GV70</a></li>
+                                         <li><a href="#">GV60</a></li>
+                                         <li><a href="#">콘셉트카 소개</a></li>
+                                     </ul>
+                                 </div>
+                                 <div class="d_link_box">
+                                     <strong>구매</strong>
+                                     <ul class="link_list">
+                                         <li><a href="#">견적내기</a></li>
+                                         <li><a href="#">전기차 구매가이드</a></li>
+                                         <li><a href="#">구매 상담 신청</a></li>
+                                         <li><a href="#">제네시스 스펙트럼</a></li>
+                                         <li><a href="#">사양 조회하기</a></li>
+                                         <li><a href="#">가격표 · 카탈로그</a></li>
+                                     </ul>
+                                 </div>
+                                  <div class="d_link_box">
+                                      <strong>체험</strong>
+                                      <ul class="link_list">
+                                          <li><a href="#">스페이스</a></li>
+                                          <li><a href="#">시승 신청</a></li>
+                                          <li><a href="#">전시장 찾기</a></li>
+                                          <li><a href="#">제네시스 드라이빙 익스피리언스</a></li>
+                                      </ul>
+                                  </div>
+                                  <div class="d_link_box">
+                                      <strong>멤버스</strong>
+                                      <ul class="link_list">
+                                          <li><a href="#">제네시스 멤버십</a></li>
+                                          <li><a href="#">MY GENESIS 앱</a></li>
+                                          <li><a href="#">제네시스 앱스</a></li>
+                                          <li><a href="#">차량 관리 서비스</a></li>
+                                      </ul>
+                                  </div>
+                                  <div class="d_link_box">
+                                      <strong>제네시스</strong>
+                                      <ul class="link_list">
+                                          <li><a href="#">브랜드</a></li>
+                                          <li><a href="#">제네시스X골프</a></li>
+                                          <li><a href="#">로드트립</a></li>
+                                          <li><a href="#">마그마 레이싱</a></li>
+                                      </ul>
+                                  </div>
+                                  <div class="d_link_box">
+                                      <strong>고객센터</strong>
+                                      <ul class="link_list">
+                                          <li><a href="#">고객센터 안내</a></li>
+                                          <li><a href="#">공지사항</a></li>
+                                          <li><a href="#">이벤트</a></li>
+                                          <li><a href="#">자주 묻는 질문</a></li>
+                                          <li><a href="#">다운로드 센터</a></li>
+                                      </ul>
+                                  </div>
+                                  <div class="d_link_box">
+                                      <strong>마이 페이지</strong>
+                                  </div>
+                             </div>
+                         </div>
+                     </div>
+                      <div class="m_layer" aria-hidden="true" role="dialog" aria-modal="true"> 
+                         <div class="m_layer_search">
+                             <div class="m_search_input_box">
+                                 <input id="m_search_input" type="text" class="m_search_input" placeholder=" " /> 
+                                 <label for="m_search_input" class="search_label">검색어를 입력해주세요.</label>
+                                 <button type="button" class="btn_search" aria-label="검색"></button>
+                             </div>
+                         </div>
+                         <ul class="m_list">
+                             <li class="m_list_item"><button><span>모델</span></button></li>
+                             <li class="m_list_item"><button><span>구매</span></button></li>
+                             <li class="m_list_item"><button><span>체험</span></button></li>
+                             <li class="m_list_item"><button><span>멤버스</span></button></li>
+                             <li class="m_list_item"><button><span>제네시스</span></button></li>
+                             <li class="m_list_item"><button><span>고객센터</span></button></li>
+                         </ul>
+                     </div>
+                 </div>
+
+                 <div class="model_nav"> 
+                     <div class="model_nav_color_bar">
+                         <div class="model_nav_box">
+                             <div class="model_nav_cover">
+                                 <div class="model_nav_model_name">
+                                     G90 Black
+                                 </div>
+                                 <div class="model_nav_menu_wrap">
+                                     <div class="model_nav_menu">
+                                         <nav class="model_nav_menu_list" aria-label="모델 상세 메뉴">
+                                             <div id="개요" class="model_nav_menu_list_item btn_active">
+                                                 <button class="model_nav_list_item_btn" data-page-navi-anchor-btn="개요">
+                                                     개요
+                                                 </button>
+                                             </div>
+                                             <div id="영감" class="model_nav_menu_list_item">
+                                                 <button class="model_nav_list_item_btn" data-page-navi-anchor-btn="영감">
+                                                     영감
+                                                 </button>
+                                             </div>
+                                             <div id="외장 디자인" class="model_nav_menu_list_item">
+                                                 <button class="model_nav_list_item_btn" data-page-navi-anchor-btn="외장 디자인">
+                                                     외장 디자인
+                                                 </button>
+                                             </div>
+                                             <div id="실내 디자인" class="model_nav_menu_list_item">
+                                                 <button class="model_nav_list_item_btn" data-page-navi-anchor-btn="실내 디자인">
+                                                     실내 디자인
+                                                 </button>
+                                             </div>
+                                         </nav>
+                                     </div>
+                                 </div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </header>
+      </div>
+
+
+           <main id="main-content">
+                <div class="w_bg">
+                    <section id="video_model" data-model="개요" aria-labelledby="section-title-overview">
+                        <div class="video_wrapper">
+                            <div class="video_box">
+                                <video class="is-pc" muted autoplay loop playsinline preload="metadata">
+                                    <source src="../../video/g90-black/genesis-kr-g90-black-key-visual-hero-large.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                                <video class="is-mo" muted autoplay loop playsinline preload="metadata">
+                                    <source src="../../video/g90-black/genesis-kr-g90-black-key-visual-hero-small.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
+                        <div class="viedo_content">
+                            <div class="viedo_content_box">
+                                <div class="viedo_content_box_cover">
+                                    <div class="viedo_content_box_cover_inner">
+                                        <h1>
+                                            <span>G90 Black</span>
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="w_bg">
+                    <div class="overview_short">
+                        <div class="overview_short_cover">
+                            <div class="overview_short_inner">
+                                <div class="overview_short_bg">
+                                    <img class="overview_short_img img_pc" src="img/genesis-kr-g90-black-key-visual-hero-large.jpg" alt="G90 Black 측면 모습">
+                                    <img class="overview_short_img img_mo" src="img/genesis-kr-g90-black-key-visual-hero-small.jpg" alt="G90 Black 측면 모습">
+                                </div>
+                                <div class="overview_short_dimmed"></div>
+                                <div class="overview_short_content">
+                                    <div class="overview_short_content_inner">
+                                        <div class="overview_short_content_box1">
+                                            <strong class="overview_short_content_title" tabindex="0">
+                                                <span>완벽한 블랙의 탄생</span>
+                                            </strong>
+                                        </div>
+                                        <div class="overview_short_content_box2">
+                                            <p class="overview_short_content_desc">
+                                                가장 순수한 블랙은 가장 어둡지만, 그렇기에 제네시스의 본질을 돋보이게 합니다. 근본부터 새로운 완벽한 블랙을 구현하기 위해 서로 다른 질감과 광택의 조화, 반사되고 흡수되는 빛의 양까지 제네시스만의 방식으로 섬세하게 그리고 끊임없이 탐구했습니다. 제네시스의 디자인 철학인 '역동적인 우아함'으로 재해석한 진정한 블랙의 경험을 제네시스 G90 Black으로 선사합니다.
+                                            </p>
+                                            <p class="overview_short_content_sub_desc">
+                                                * 본 페이지에서 소개되는 상품의 디자인, 색상, 특성, 사양 등은 참고용이며 실제 차량과 다를 수 있습니다.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w_bg">
+                    <section id="inspiration" data-model="영감" aria-labelledby="section-title-inspiration">
+                        <div class="inspiration_content">
+                            <div class="inspiration_content_inner">
+                                <div class="inspiration_content_inner_title_wrap">
+                                    <div class="inspiration_content_inner_title">
+                                        <span class="inspiration_content_inner_title_sub">영감</span>
+                                        <h2 id="section-title-inspiration" class="inspiration_content_inner_title_main">
+                                            근본부터 완전히 새로운 블랙
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div class="inspiration_content_inner_img_wrap">
+                                    <div class="inspiration_content_inner_img">
+                                        <img class="is-pc" src="img/genesis-kr-g90-black-origin-large.jpg" alt="어두운 배경 속 G90 Black 디테일">
+                                        <img class="is-mo" src="img/genesis-kr-g90-black-origin-small.jpg" alt="어두운 배경 속 G90 Black 디테일">
+                                    </div>
+                                </div>
+                                <div class="inspiration_content_box">
+                                    <div class="inspiration_content_textarea">
+                                        <div class="inspiration_content_textarea_inner">
+                                            <div class="inspiration_content_textarea_inner_desc">
+                                                <p class="inspiration_content_textarea_inner_text">
+                                                    어둠에서 모든 것이 창조되듯이, 블랙은 가장 순수한 근원의 색입니다. 어둠 안에서 모든 감각은 더 선명하게 살아나고, 이를 통해 본질의 세계로 다가갈 수 있습니다. 블랙은 창조와 영감에 대한 무한한 가능성을 의미합니다. 제네시스만의 방식으로 해석한 차별화된 블랙을 구현하기 위해 안과 밖, 그리고 아주 섬세한 부분까지 서로 다른 블랙을 조화롭게 적용했습니다. 본질의 세계에 다가가는 잊을 수 없는 경험을 제공합니다.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="w_bg">
+                    <section id="exteriordesign" data-model="외장 디자인" aria-labelledby="section-title-exterior">
+                        <div class="exteriordesign_inner">
+                            <div class="exteriordesign_intro">
+                                <div class="exteriordesign_intro_dimmed"></div>
+                                <div class="exteriordesign_intro_headline_wrap">
+                                    <div class="exteriordesign_intro_headline_title">
+                                        <span>외장 디자인</span>
+                                        <h2 id="section-title-exterior">새로운 영감을 더하는 블랙</h2>
+                                        <p>
+                                            제네시스의 디자인 철학인 '역동적인 우아함'이 블랙을 더 깊이 있게 만들어 줍니다. 완벽한 블랙이 파라볼릭 라인<sup>1</sup>의 우아한 선을 뚜렷하게 강조해, 차량을 이루고 있는 곡선과 직선을 조화롭게 드러냅니다.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="exteriordesign_intro_img_wrap">
+                                    <div class="exteriordesign_intro_img">
+                                        <img class="is-pc" src="img/genesis-kr-g90-black-exterior-large.jpg" alt="G90 Black 전면부 디자인">
+                                        <img class="is-mo" src="img/genesis-kr-g90-black-exterior-small.jpg" alt="G90 Black 전면부 디자인">
+                                    </div>
+                                    <div class="exteriordesign_intro_img">
+                                        <img class="is-pc" src="img/genesis-kr-g90-black-exterior-large.jpg" alt="G90 Black 전면부 디자인 상세">
+                                        <img class="is-mo" src="img/genesis-kr-g90-black-exterior-small.jpg" alt="G90 Black 전면부 디자인 상세">
+                                    </div>
+                                    <div class="exteriordesign_intro_img_text_wrap">
+                                        <div class="exteriordesign_intro_img_text_inner">
+                                            <div class="exteriordesign_intro_img_text">
+                                                <span class="exteriordesign_intro_img_text_title">
+                                                    <span>전면 디자인</span>
+                                                </span>
+                                                <span class="exteriordesign_intro_img_text_desc">
+                                                    &nbsp;시그니처 지-매트릭스<sup>2</sup> 패턴을 정교하게 쌓은 크레스트 그릴에 블랙의 깊이를 더했습니다. 라디에이터 그릴과 전면 엠블럼 또한 모두 블랙으로 통일해 제네시스 G90 Black만의 존재감을 보여줍니다.
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="exteriordesign_intro_img_text_dimmed"></div>
+                                </div>
+                            </div>
+                            <div class="exteriordesign_item">
+                                <div class="exteriordesign_item_wrap">
+                                    <div class="exteriordesign_item_img">
+                                        <img class="is-pc" src="img/genesis-kr-g90-black-exterior-clamshell-hood-large.jpg" alt="G90 Black 측면 디자인 휠 부분">
+                                        <img class="is-mo" src="img/genesis-kr-g90-black-exterior-clamshell-hood-small.jpg" alt="G90 Black 측면 디자인 휠 부분">
+                                    </div>
+                                    <div class="exteriordesign_item_text_wrap">
+                                        <div class="exteriordesign_item_text_inner">
+                                            <div class="exteriordesign_item_text">
+                                                <span class="exteriordesign_item_title">
+                                                    <span>측면 디자인</span>
+                                                </span>
+                                                <span class="exteriordesign_item_desc"> 전용 휠부터 DLO 몰딩까지 보이는 모든 곳부터, 브레이크 캘리퍼와 같이 운전자의 취향을 드러낼 수 있는 섬세한 부분까지도 빠짐없이 블랙을 적용했습니다. 가장 어울리는 질감과 빛의 농도를 고려해 설계된 서로 다른 블랙들이 조화를 이뤄 차별화된 감성을 느낄 수 있습니다. </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="exteriordesign_intro_img_text_dimmed"></div>
+                                <div class="exteriordesign_intro_item_dimmed"></div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="w_bg">
+                    <section class="full_visual_image">
+                        <h2 class="visually-hidden">G90 Black 후면 디자인</h2>
+                        <div class="full_visual_image_inner">
+                            <div class="full_visual_image_intro">
+                                <div class="full_visual_image_headline_wrap">
+                                    <div class="full_visual_image_headline_text">
+                                        <p class="full_visual_image_headline_desc">
+                                            <span class="full_visual_image_headline_desc_title">후면 디자인</span>
+                                            가장 깨끗하면서도 순수한 블랙을 구현하기 위해 차종 후면 엠블럼을 덜어내고, 한국 특유의 미적 요소인 '여백의 미'를 강조했습니다. GENESIS 로고만을 남겨 G90 Black만의 존재감을 완성합니다.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="full_visual_image_intro_img">
+                                    <img class="is-mo" src="img/genesis-kr-g90-black-exterior-window-openings-small.jpg" alt="G90 Black 후면 디자인">
+                                    <img class="is-pc" src="img/genesis-kr-g90-black-exterior-window-openings-large.jpg" alt="G90 Black 후면 디자인">
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="bg_black">
+                    <section class="interiordesign" data-model="실내 디자인" aria-labelledby="section-title-interior">
+                        <div class="interiordesign_inner">
+                            <div class="interiordesign_text_box">
+                                <div class="interiordesign_textarea">
+                                    <div class="interiordesign_title">
+                                        <div class="interiordesign_title_inner">
+                                            <span class="interiordesign_title_subtitle">실내 디자인</span>
+                                            <h2 id="section-title-interior" class="interiordesign_title_text">섬세함에서 드러나는 블랙의 정수</h2>
+                                        </div>
+                                    </div>
+                                    <div class="interiordesign_desc">
+                                        <div class="interiordesign_desc_inner">
+                                            <p class="interiordesign_desc_text">
+                                                세심하게 설계된 실내 요소들에 깊이 있는 블랙을 더해, 차분하면서도 우아한 실내 인테리어 디자인을 완성했습니다. 단순히 어둡기만 한 공간이 아닌, 한 차원 더 높은 블랙 공간을 구현하기 위해 각각 다른 톤과 명도를 적용해 입체감이 드러나도록 했습니다. 눈길이 잘 닿지 않는 작은 소재까지도 섬세하게 디자인함으로써 차별화된 블랙 경험을 선사합니다.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="interiordesign_box is-mo">
+                                <div class="interiordesign_img_wrap">
+                                    <div class="interiordesign_img">
+                                        <div class="interiordesign__img">
+                                            <img src="img/genesis-kr-g90-black-comfort-refined-luxury-in-every-seat-small.jpg" alt="G90 Black 실내 디자인 운전석 부분">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="interiordesign_box is-pc">
+                            <div class="interiordesign_img_wrap">
+                                <div class="interiordesign_img">
+                                    <div class="interiordesign__img">
+                                        <img src="img/genesis-kr-g90-black-comfort-refined-luxury-in-every-seat-large.jpg" alt="G90 Black 실내 디자인 전체 모습">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="interiordesign_disclaimer"></div>
+                    </section>
+                </div>
+                <div class="contents_slide bg_black">
+                    <div class="contents_slide_inner">
+                        <div class="swiper_cards is-mo" role="region" aria-label="실내 디테일 슬라이드 (모바일)">
+                            <div class="swiper_cards_items">
+                                <div class="swiper_cards_item">
+                                    <div class="swiper_cards_card">
+                                        <img src="img/genesis-kr-g90-black-comfort-integrated-drive-mode-small.jpg" alt="전자식 변속 다이얼 상세 모습">
+                                    </div>
+                                    <div class="swiper_cards_desc_wrap">
+                                        <div class="swiper_cards_desc_inner">
+                                            <span class="swiper_cards_title">전자식 변속 다이얼</span>
+                                            <span class="swiper_cards_desc">
+                                                더 깊이 있는 럭셔리를 완성하기 위해 디테일한 부분까지 섬세하게 디자인했습니다. 서로 다른 블랙들이 이뤄내는 조화와 어둠이 주는 차분함이 편안한 무드를 자아냅니다.
+                                            </span>
+                                        </div>
+                                    </div>
+                                     <button class="section_btn visually-hidden" data-layer-target="#target-contents_slide_copy_1">더 보기</button> 
+                                </div>
+                                <div class="swiper_cards_item">
+                                    <div class="swiper_cards_card">
+                                        <div class="contents_slide_video_wrap play">
+                                            <video class="contents_slide_boost_video contents_slide_video" muted playsinline autoplay loop>
+                                                <source src="/video/g90-black/genesis-kr-g90-black-comfort-materials-video-small.mp4" type="video/mp4">
+                                                 Your browser does not support the video tag.
+                                            </video>
+                                            <button class="replay_btn_toggle is-mo" aria-label="영상 다시 재생">
+                                                <svg class="circle_progressbar is-mo" width="36" height="36" viewBox="0 0 36 36" fill="none">
+                                                    <circle class="circle-progressbar_bg" cx="18" cy="18" r="16" stroke-width="2" stroke="rgba(255, 255, 255, 0.4)"></circle>
+                                                    <circle class="circle-progressbar_time is-mo" cx="18" cy="18" r="16" stroke-width="2" stroke="#fff"></circle>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="swiper_cards_desc_wrap">
+                                        <div class="swiper_cards_desc_inner">
+                                            <span class="swiper_cards_title">소재</span>
+                                            <span class="swiper_cards_desc">
+                                                디테일 하나까지도 놓치지 않기 위해, 소재의 특성을 깊이 고민하고 수십 번의 정제를 거쳐 제네시스만의 블랙을 만들었습니다.
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <button class="section_btn" data-layer-target="#target-contents_slide_copy_2">더 보기</button>
+                                </div>
+                                <div class="swiper_cards_item">
+                                    <div class="swiper_cards_card">
+                                        <img src="img/genesis-kr-g90-black-details-bang-and-olufsen-small.jpg" alt="뱅앤올룹슨 사운드 시스템 스피커 상세 모습">
+                                    </div>
+                                    <div class="swiper_cards_desc_wrap">
+                                        <div class="swiper_cards_desc_inner">
+                                             <span class="swiper_cards_title">디테일</span> 
+                                            <span class="swiper_cards_desc">
+                                                더욱 완벽한 블랙에 가까워지기 위해 손길이 닿는 모든 곳을 블랙으로 완성했습니다.
+                                            </span>
+                                        </div>
+                                    </div>
+                                     <button class="section_btn" data-layer-target="#target-contents_slide_copy_3">더 보기</button> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contents_slide_overlap_cards overlap_cards contents_slide_container is-pc" role="region" aria-label="실내 디테일 (데스크탑)">
+                            <div class="contents_slide_overlap_cards_inner">
+                                <div class="overlap_cards_info_wrap">
+                                    <div class="overlap_cards_info">
+                                        <div class="overlap_cards_info_inr overlap_cards_tab" tabindex="0"> 
+                                            <span class="overlap_cards_title">전자식 변속 다이얼</span>
+                                            <span class="overlap_cards_desc"> 더 깊이 있는 럭셔리를 완성하기 위해 디테일한 부분까지 섬세하게 디자인했습니다. 서로 다른 블랙들이 이뤄내는 조화와 어둠이 주는 차분함이 편안한 무드를 자아냅니다.</span>
+                                            <span class="overlap_cards_img_desc visually-hidden">
+                                                G90 Black 차량의 전자식 변속 다이얼 부분이 확대되어 보인다. P버튼에 붉은빛이 켜져 있다.
+                                            </span>
+                                        </div>
+                                       <button type="button" class="section_btn" data-layer-target="#target-contents_slide_copy_1">더 보기</button> No button for first item? */}
+                                    </div>
+                                    <div class="overlap_cards_info">
+                                        <div class="overlap_cards_info_inr overlap_cards_tab" tabindex="0">
+                                            <span class="overlap_cards_title">소재</span>
+                                            <span class="overlap_cards_desc"> 디테일 하나까지도 놓치지 않기 위해, 소재의 특성을 깊이 고민하고 수십 번의 정제를 거쳐 제네시스만의 블랙을 만들었습니다.</span>
+                                            <span class="overlap_cards_img_desc visually-hidden">
+                                                G90 Black 차량의 운전자석이 보인다. 보조석에서 바라본 모습이다.
+                                            </span>
+                                        </div>
+                                        <button type="button" class="section_btn" data-layer-target="#target-contents_slide_copy_2">더 보기</button>
+                                    </div>
+                                    <div class="overlap_cards_info">
+                                        <div class="overlap_cards_info_inr overlap_cards_tab" tabindex="0">
+                                            <span class="overlap_cards_title">디테일</span>
+                                            <span class="overlap_cards_desc"> 더욱 완벽한 블랙에 가까워지기 위해 손길이 닿는 모든 곳을 블랙으로 완성했습니다.</span>
+                                            <span class="overlap_cards_img_desc visually-hidden">
+                                                G90 블랙 차량 내부에 있는 고해상도 사운드 스피커가 확대되어 보인다. BANG&OULFSEN의 로고가 스피커 상단에 적혀 있다.
+                                            </span>
+                                        </div>
+                                        <button type="button" class="section_btn" data-layer-target="#target-contents_slide_copy_3">더 보기</button>
+                                    </div>
+                                </div>
+                                <div class="overlap_cards_img_wrap">
+                                    <div class="overlap_cards_img">
+                                            <div class="overlap_cards_img_inr overlap_cards_img_inr_1">
+                                                <img src="img/genesis-kr-g90-black-comfort-integrated-drive-mode-large.jpg" alt="G90 Black 전자식 변속 다이얼">
+                                            </div>
+                                    </div>
+                                    <div class="overlap_cards_img">
+                                        <div class="overlap_cards_img_inr overlap_cards_img_inr_2">
+                                            <div class="contents_slide_video_wrap play">
+                                                <video class="contents_slide_boost_video contents_slide_video" muted playsinline autoplay loop>
+                                                    <source src="/video/g90-black/genesis-kr-g90-black-comfort-materials-video-large.mp4" type="video/mp4">
+                                                     Your browser does not support the video tag.
+                                                </video>
+                                                <button class="replay_btn_toggle contents_slide_toggle_btn" aria-label="영상 다시 재생">
+                                                    <svg class="circle_progressbar is-pc" width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                                        <circle class="circle-progressbar_bg" cx="24" cy="24" r="22" stroke-width="2" stroke="rgba(255, 255, 255, 0.4)"></circle>
+                                                        <circle class="circle-progressbar_time is-pc" cx="24" cy="24" r="22" stroke-width="2" stroke="#fff"></circle>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="overlap_cards_img">
+                                        <div class="overlap_cards_img_inr overlap_cards_img-inr--3">
+                                            <img src="img/genesis-kr-g90-black-details-bang-and-olufsen-large.jpg" alt="G90 Black 뱅앤올룹슨 사운드 시스템 스피커">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main> 
+
+      <footer>
+                <div class="footer_top">
+                    <div class="footer_inner">
+                        <div class="footer__regal">
+                            <ul class="footer__regal_list">
+                                <li class="footer__regal_item"><a href="">사이트맵</a></li>
+                                <li class="footer__regal_item"><a href="">이용약관</a></li>
+                                <li class="footer__regal_item"><a href="" class="point_color">개인정보 처리방침</a></li>
+                                <li class="footer__regal_item"><a href="">저작권 안내</a></li>
+                                <li class="footer__regal_item"><a href="">보증 안내</a></li>
+                                <li class="footer__regal_item"><a href="">자동차 교환 및 환불 중재 규정 안내</a></li>
+                                <li class="footer__regal_item"><a href="">하자 재발 통보 안내</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer_sns">
+                            <ul class="footer_sns_list">
+                                <li class="footer_sns_item">
+                                    <a href="https://www.facebook.com/GenesisWorldwide" target="_blank" title="페이스북 바로가기 (새 창)">
+                                        <span class="svg_icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" focusable="false" viewBox="0 0 48 48" aria-hidden="true">
+                                                <path d="M22,36H26.5V25.5H31V21H26.5V18a1.43,1.43,0,0,1,1.33-1.5H31V12H27.25A5.32,5.32,0,0,0,22,17.25V21H19v4.5h3Z"></path>
+                                            </svg>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="footer_sns_item">
+                                    <a href="https://www.instagram.com/genesis_kor" target="_blank" title="인스타그램 바로가기 (새 창)">
+                                        <span class="svg_icon">
+                                             <svg xmlns="http://www.w3.org/2000/svg" focusable="false" viewBox="0 0 48 48" aria-hidden="true">
+                                                <circle cx="24" cy="24" r="4"></circle>
+                                                <path
+                                                    d="M35.93 19.05a9.27 9.27 0 0 0-.56-2.9 6.1 6.1 0 0 0-3.51-3.51 8.5 8.5 0 0 0-2.86-.56C27.67 12 27.26 12 24 12s-3.67 0-4.95.08a8.53 8.53 0 0 0-2.91.55A5.86 5.86 0 0 0 14 14a6 6 0 0 0-1.39 2.11 8.89 8.89 0 0 0-.55 2.89C12 20.3 12 20.7 12 24s0 3.66.08 4.95a8.72 8.72 0 0 0 .55 2.9A5.81 5.81 0 0 0 14 34a6.15 6.15 0 0 0 2.12 1.39A9.1 9.1 0 0 0 19 36c1.28.06 1.68.07 5 .07s3.7-.07 5-.07a9.1 9.1 0 0 0 2.92-.55A5.93 5.93 0 0 0 34 34a6 6 0 0 0 1.39-2.13 9.13 9.13 0 0 0 .55-2.87c.06-1.34.06-1.74.06-5s0-3.66-.07-4.95zM24 30.16A6.16 6.16 0 1 1 30.16 24 6.16 6.16 0 0 1 24 30.16zM30.41 19a1.44 1.44 0 1 1 1.44-1.44A1.43 1.43 0 0 1 30.41 19z"
+                                                ></path>
+                                            </svg>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li class="footer_sns_item">
+                                    <a href="[Your YouTube Link]" target="_blank" title="유튜브 바로가기 (새 창)"> 
+                                        <span class="svg_icon">
+                                             <svg xmlns="http://www.w3.org/2000/svg" focusable="false" viewBox="0 0 48 48" aria-hidden="true">
+                                                <path
+                                                    d="M38.74 18a6.53 6.53 0 0 0-1.2-3 4.27 4.27 0 0 0-3-1.28c-4.22-.3-10.54-.3-10.54-.3s-6.27 0-10.52.31a4.27 4.27 0 0 0-3 1.28 6.53 6.53 0 0 0-1.2 3A46.46 46.46 0 0 0 9 22.86v2.28A46.59 46.59 0 0 0 9.27 30a6.55 6.55 0 0 0 1.2 3 5 5 0 0 0 3.34 1.28c2.4.23 10.19.31 10.19.31s6.32 0 10.53-.32a4.3 4.3 0 0 0 3-1.27 6.55 6.55 0 0 0 1.2-3 46.59 46.59 0 0 0 .27-4.86v-2.28a46.46 46.46 0 0 0-.26-4.86zm-17.88 9.92v-8.47L29 23.69z"
+                                                ></path>
+                                            </svg>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer_bottom">
+                    <div class="footer_inner">
+                        <div class="footer_copyrights">
+                            <div class="footer_copyrights_logo">
+                                <picture>
+                                    <img src="../../img/footer-logo.png" alt="Genesis Logo" />
+                                </picture>
+                            </div>
+                            <div class="footer_copyrights_text">
+                                <p>
+                                    © Copyright 2024 Hyundai Motor Company.<br />
+                                    All Rights Reserved.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+    </div> 
+
+    <script>
+      $(function() { // Shorthand for $(document).ready()
+
+        // --- Constants ---
+        const DESKTOP_BREAKPOINT = 1023;
+        const ANIMATION_DURATION = 0.25; // seconds (GSAP uses seconds)
+
+        // --- jQuery DOM Elements ---
+        const $window = $(window);
+              const $body = $("body");
+        const $header = $(".site-navi-bar");
+        const $navParent = $(".nav_parent"); // 로고, 메인 메뉴 등 (숨겨질 부분)
+              const $modelNav = $(".model_nav");    // 모델별 네비게이션 (고정될 부분)
+        const $menuToggleButton = $(".layer_open");
+        const $mobileLayer = $(".m_layer");
+        const $desktopLayer = $(".d_layer");
+        const $menuIconLines = $menuToggleButton.find(".line");
+        const $mobileSearchInput = $(".m_search_input");
+        const $mobileSearchLabel = $(".m_layer .search_label");
+        const $desktopSearchInput = $(".d_search_input");
+        const $desktopSearchLabel = $(".d_layer .d_search_label");
+              const $modelCards = $(".model_lineup_d_model_header"); // 메인 페이지용
+
+              // --- GSAP/ScrollTrigger Elements ---
+              const $overviewCover = $(".overview_short_cover");
+              const $overviewConInr = $(".overview_short_inner");
+              const $overviewBgImgPc = $(".overview_short_img.img_pc");
+              const $overviewBgImgMo = $(".overview_short_img.img_mo");
+              const $overviewDimmed = $(".overview_short_dimmed");
+              const $overviewContent = $(".overview_short_content");
+              const $overviewTitle = $(".overview_short_content_title");
+              const $overviewDescBox = $(".overview_short_content_box2");
+              const $overviewDesc = $(".overview_short_content_desc");
+              const $inspirationSection = $("#inspiration");
+              const $chargingImg = $(".inspiration_content_inner_img");
+              const $chargingBox = $(".inspiration_content_box");
+              const $modelNavColorBar = $(".model_nav_color_bar");
+              const $modelNavBox = $(".model_nav_box"); // model_nav_box를 직접 타겟
+              const $modelNavMenuItems = $(".model_nav_menu_list_item");
+              const $modelNavMenuBtns = $(".model_nav_list_item_btn");
+              const $modelNaviList = $(".model_nav_menu_list");
+              const $anchorSections = $("section[data-model]");
+              const $modelNavMenuWrap = $(".model_nav_menu_wrap");
+              const $modelNavMenu = $(".model_nav_menu");
+              const $exteriordesignInner = $(".exteriordesign_inner");
+              const $exteriordesignIntro = $(".exteriordesign_intro");
+              const $exteriordesignHeadline = $(".exteriordesign_intro_headline_title");
+              const $exteriordesignIntroImgs = $(".exteriordesign_intro_img img");
+              const $exteriordesignIntroImgDivs = $(".exteriordesign_intro_img");
+              const $exteriordesignIntroDimmed = $(".exteriordesign_intro_dimmed");
+              const $exteriordesignItems = $(".exteriordesign_item");
+              const $exteriordesignItemDimmed = $(".exteriordesign_intro_item_dimmed");
+              const $exteriordesignTexts = $(".exteriordesign_intro_img_text, .exteriordesign_item_text");
+              const $exteriordesignTextDimmed = $(".exteriordesign_intro_img_text_dimmed");
+              const $fullVisualHeadlineDesc = $(".full_visual_image_headline_desc");
+              const $fullVisualIntro = $(".full_visual_image_intro");
+              const $interiordesignInner = $(".interiordesign_inner");
+              const $interiordesignImgWrap = $(".interiordesign_img");
+              const $interiordesignSectionDesc = $(".interiordesign_desc_text");
+              const $interiordesignImg = $(".interiordesign__img");
+              const $swiperCardsMobile = $(".swiper_cards.is-mo");
+              const $overlapCardsContainer = $(".contents_slide_overlap_cards.is-pc");
+              const $overlapImgs = $(".overlap_cards_img_inr");
+              const $overlapTabs = $(".overlap_cards_tab");
+              const $boostVideoWrap = $(".contents_slide_video_wrap");
+              const $boostVideo = $(".contents_slide_video");
+              const $boostButton = $(".replay_btn_toggle");
+              const $progressbar = $(".circle_progressbar");
+              const $progressbarTime = $(".circle-progressbar_time");
+
+
+        // --- State Variables ---
+        let isMenuOpen = false;
+        let headerViewType = null; // 'up', 'down', or null
+        let prevWinTop = $window.scrollTop();
+        let scrollStart = null;
+        let isHeaderUpdate = false;
+        let headerScrollRequestFrame;
+        let headerScrollEndTime;
+        let headerUpdateTime;
+              let headerProps = { H: 0, modelNavH: 0 }; // Initialize header heights
+              let currentAnchorIdx = 0;
+              let isAnchorDown = false;
+              let oldAnchorScrollY = $window.scrollTop();
+              let anchorSectionsPosArr = [];
+              const pageNavIds = $modelNavMenuBtns.map((_, btn) => $(btn).data('page-navi-anchor-btn')).get();
+
+              // --- Register GSAP Plugins ---
+              gsap.registerPlugin(ScrollTrigger, ScrollToPlugin); // Register ScrollToPlugin
+              const matchMedia = gsap.matchMedia(); // Setup MatchMedia
+
+        // --- Functions ---
+
+        /** Equal Height for Model Cards (if they exist on the page) */
+        function setEqualCardHeight() {
+                if (!$modelCards || !$modelCards.length) return; // Check if element exists and has length
+          let maxHeight = 0;
+                $modelCards.css('height', '');
+          $modelCards.each(function() {
+            const cardHeight = $(this).outerHeight();
+            if (cardHeight > maxHeight) maxHeight = cardHeight;
+          });
+          $modelCards.height(maxHeight);
+        }
+
+        /** Show/Hide Search Input Label */
+        function checkInputValue($input, $label) {
+                if (!$input || !$input.length || !$label || !$label.length) return; // Add checks
+          if ($input.val().trim() !== "") $label.hide();
+          else $label.show();
+        }
+
+              /** Reset Main Menu State */
+              function resetMainMenuState() {
+                  $body.removeClass("is-scroll-lock");
+                  isMenuOpen = false;
+                   if ($menuToggleButton.length) {
+                        $menuToggleButton.attr("aria-expanded", "false")
+                                       .attr("aria-label", "사이트맵 열기");
+                        $menuToggleButton.css('z-index', ''); // Reset z-index
+                   }
+                  gsap.killTweensOf([$mobileLayer, $desktopLayer, $menuIconLines]);
+                  if ($mobileLayer.length) $mobileLayer.css({ 'transition': 'none', 'display': 'none', 'transform': '' }).attr("aria-hidden", "true");
+                  if ($desktopLayer.length) $desktopLayer.css({ 'transition': 'none', 'opacity': '', 'visibility': '', 'transform': '' }).attr("aria-hidden", "true");
+                  if ($menuIconLines.length) $menuIconLines.css({ 'transition': 'none', 'top': '', 'transform': '' });
+              }
+
+        /** Toggle Main Menu (Hamburger) */
+        function toggleMainMenu() {
+                  if (!$menuToggleButton.length || !$mobileLayer.length || !$desktopLayer.length) return; // Check elements exist
+
+          isMenuOpen = !isMenuOpen;
+          $body.toggleClass("is-scroll-lock", isMenuOpen);
+                  $menuToggleButton.attr("aria-expanded", isMenuOpen)
+                                   .attr("aria-label", isMenuOpen ? "사이트맵 닫기" : "사이트맵 열기");
+
+          const isDesktop = $window.width() > DESKTOP_BREAKPOINT;
+                  const line1 = $menuIconLines.eq(0);
+                  const line3 = $menuIconLines.eq(2);
+
+                  gsap.killTweensOf([$mobileLayer, $desktopLayer, line1, line3]);
+
+          if (isDesktop) {
+                       $desktopLayer.attr("aria-hidden", !isMenuOpen);
+                       gsap.to($desktopLayer, {
+                           opacity: isMenuOpen ? 1 : 0,
+                           visibility: isMenuOpen ? 'visible' : 'hidden',
+                           y: isMenuOpen ? 0 : '-100%',
+                           duration: ANIMATION_DURATION, ease: 'power2.inOut' });
+                       $menuToggleButton.css('z-index', isMenuOpen ? 1000 : '');
+          } else {
+                       $mobileLayer.attr("aria-hidden", !isMenuOpen);
+                       if (isMenuOpen) {
+                           $mobileLayer.show();
+                           gsap.to($mobileLayer, { x: 0, duration: ANIMATION_DURATION, ease: 'power2.out' });
+                       } else {
+                           gsap.to($mobileLayer, {
+                               x: '100%', duration: ANIMATION_DURATION, ease: 'power2.in',
+                               onComplete: () => { if (!isMenuOpen) $mobileLayer.hide(); }
+                           });
+                       }
+          }
+
+          // Hamburger Icon Animation
+          if (line1.length && line3.length) {
+            const commonTweenProps = { duration: ANIMATION_DURATION, transformOrigin: 'center center' };
+                       gsap.to(line1, { top: isMenuOpen ? '50%' : '', rotation: isMenuOpen ? 45 : 0, ...commonTweenProps });
+                       gsap.to(line3, { top: isMenuOpen ? '50%' : '', rotation: isMenuOpen ? -45 : 0, ...commonTweenProps });
+                     if ($menuIconLines.length > 1) {
+                          gsap.to($menuIconLines.eq(1), { opacity: isMenuOpen ? 0 : 1, duration: ANIMATION_DURATION });
+                     }
+          }
+        }
+
+
+              // --- Header Sticky Scroll Logic ---
+              function setHeaderScrollOpts() {
+                  headerProps['H'] = $navParent.outerHeight(true) || 0;
+                  headerProps['modelNavH'] = $modelNav.outerHeight(true) || 0;
+              }
+
+              function handleScrollDown() {
+                  // 스크롤 다운 시 navParent를 숨김
+                  if (headerViewType !== 'down') {
+                      headerViewType = 'down';
+                       if ($header.length && $navParent.length) {
+                           $header.addClass("model-nav-fixed"); // CSS로 .model_nav 고정 스타일 적용
+                           const targetY = -Math.abs(headerProps['H']);
+                           gsap.to($navParent, {
+                               duration: ANIMATION_DURATION, y: targetY, ease: 'power1.out', overwrite: 'auto'
+                           });
+                       }
+                  }
+              }
+
+              function handleScrollUp() {
+                   // 스크롤 업 시 navParent를 다시 표시
+                  if (headerViewType !== 'up') {
+                      headerViewType = 'up';
+                       if ($header.length && $navParent.length) {
+                           gsap.to($navParent, {
+                               duration: ANIMATION_DURATION, y: 0, ease: 'power1.out', overwrite: 'auto'
+                           });
+                           // model-nav-fixed 클래스는 스크롤 위치에 따라 관리 (checkHeaderTopScroll, headerScrollLayout)
+                       }
+                  }
+              }
+
+              function checkHeaderTopScroll() {
+                   // 페이지 최상단인지 확인하고 상태 초기화
+                  const winTop = $window.scrollTop();
+                  if (winTop <= 1) { // 상단 여유값 조정
+                      if ($header.hasClass("model-nav-fixed")) {
+                          $header.removeClass("model-nav-fixed");
+                      }
+                      if (headerViewType !== null) {
+                          gsap.killTweensOf($navParent);
+                          $navParent.removeAttr("style");
+                          //$modelNav.removeAttr("style"); // 필요시 추가
+                          headerViewType = null;
+                      }
+                  }
+              }
+
+              function headerScrollLayout() {
+                  // 스크롤 중 레이아웃 업데이트
+                  if (isHeaderUpdate) return;
+                  const winTop = $window.scrollTop();
+                  if (winTop < 0) return;
+
+                  // 특정 높이 이상 스크롤 되었을 때만 동작
+                   const scrollThreshold = 10; // 약간 스크롤 되어야 반응 시작
+
+                  if (winTop > scrollThreshold) {
+                      if (!$header.hasClass('model-nav-fixed')) {
+                           $header.addClass('model-nav-fixed'); // 스크롤 시작 시 바로 고정 클래스 추가
+                      }
+                      if (winTop > prevWinTop) { // Scrolling Down
+                          handleScrollDown();
+                      } else if (winTop < prevWinTop) { // Scrolling Up
+                          handleScrollUp();
+                      }
+                  } else {
+                      // Threshold보다 위쪽이면 헤더 완전히 보이게
+                      handleScrollUp();
+                      checkHeaderTopScroll(); // 상단이면 fixed 클래스 제거 등 처리
+                  }
+                  prevWinTop = winTop;
+              }
+
+              function headerScrollAnimateFunc() {
+                  headerScrollLayout();
+                  headerScrollRequestFrame = requestAnimationFrame(headerScrollAnimateFunc);
+              }
+
+              function headerScrollEndFunc(){
+                  scrollStart = null;
+                  cancelAnimationFrame(headerScrollRequestFrame);
+                  checkHeaderTopScroll(); // 스크롤 멈췄을 때 상단 체크
+                  // headerScrollLayout(); // Ensure final state is correct
+              }
+
+              function headerScrollFunc() {
+                  // 메인 스크롤 이벤트 핸들러
+                  if (scrollStart === null) {
+                      scrollStart = $window.scrollTop();
+                      headerScrollAnimateFunc();
+                  }
+                   window.clearTimeout(headerScrollEndTime);
+                   headerScrollEndTime = setTimeout(headerScrollEndFunc, 150);
+                   checkHeaderTopScroll(); // 스크롤 중에도 상단 체크
+              }
+
+               function updateHeaderOnResize() {
+                  // 창 크기 변경 시 헤더 상태 업데이트
+                  isHeaderUpdate = true;
+                  setHeaderScrollOpts();
+
+                  const winTop = $window.scrollTop();
+                  const scrollThreshold = 10;
+
+                  if (winTop <= scrollThreshold) {
+                      checkHeaderTopScroll(); // Reset to top state
+                      gsap.set($navParent, { y: 0 }); // Ensure navParent is visible
+                  } else {
+                      // If scrolled down, ensure sticky state is correct
+                      if (!$header.hasClass("model-nav-fixed")) {
+                           $header.addClass("model-nav-fixed");
+                      }
+                       // Apply correct navParent position based on assumed previous direction (might need refinement)
+                      if (headerViewType === 'down') {
+                         gsap.set($navParent, { y: -headerProps['H'] });
+                      } else {
+                         gsap.set($navParent, { y: 0 });
+                      }
+                  }
+                   headerViewType = null; // Force re-evaluation on next scroll
+
+                   window.clearTimeout(headerUpdateTime);
+                   headerUpdateTime = setTimeout(() => {
+                       isHeaderUpdate = false;
+                       prevWinTop = $window.scrollTop(); // Update scroll position after resize adjustments
+                   }, 150);
+               }
+
+
+              // --- Model Navigation Anchor Scroll ---
+              function getAnchorSectionPos(index) {
+                   if (index < 0 || index >= pageNavIds.length) return 0;
+                  const targetId = pageNavIds[index];
+                  const $currentSection = $(`section[data-model="${targetId}"]`);
+                  return $currentSection.length ? $currentSection.offset().top : 0;
+              }
+
+              function updateActiveAnchor() {
+                   if (!$anchorSections.length) return; // No sections to check
+
+                  anchorSectionsPosArr = $anchorSections.map((index, section) => {
+                      return index === 0 ? -10 : $(section).offset().top; // First section active from top
+                  }).get();
+
+                   const stickyNavHeight = $header.hasClass('model-nav-fixed') ? (headerProps['modelNavH'] || $modelNav.outerHeight() || 0) : 0;
+                   // Adjust offset: slightly more than sticky nav height to activate when section top is clearly below nav
+                   const offset = stickyNavHeight + 20;
+
+                  const winTop = $window.scrollTop();
+                  let newIdx = 0;
+                  for (let i = anchorSectionsPosArr.length - 1; i >= 0; i--) {
+                      if (winTop >= anchorSectionsPosArr[i] - offset) {
+                           newIdx = i;
+                           break;
+                      }
+                  }
+
+                  if (newIdx !== currentAnchorIdx) {
+                       currentAnchorIdx = newIdx;
+                       setActiveAnchor();
+                       setModelNaviListPos();
+                  }
+              }
+
+              function getIsAnchorDown() {
+                  const currentScrollY = $window.scrollTop();
+                  isAnchorDown = currentScrollY >= oldAnchorScrollY;
+                  oldAnchorScrollY = currentScrollY;
+              }
+
+              function setActiveAnchor() {
+                   if ($modelNavMenuItems.length > currentAnchorIdx) {
+                        $modelNavMenuItems.removeClass("btn_active");
+                        $modelNavMenuItems.eq(currentAnchorIdx).addClass("btn_active");
+                   }
+              }
+
+              function setModelNaviListPos() {
+                  if (!$modelNaviList.length || !$modelNavMenuItems.length || currentAnchorIdx < 0) return;
+                  const $activeItem = $modelNavMenuItems.eq(currentAnchorIdx);
+                  if (!$activeItem.length) return;
+
+                  const listScrollLeft = $modelNaviList.scrollLeft();
+                  const listWidth = $modelNaviList.width();
+                   // Check if position() is available (element might be hidden)
+                   if (!$activeItem.is(':visible') || typeof $activeItem.position() === 'undefined') return;
+
+                  const itemLeft = $activeItem.position().left + listScrollLeft;
+                  const itemWidth = $activeItem.outerWidth();
+                  let targetScrollLeft = itemLeft - (listWidth / 2) + (itemWidth / 2);
+                  targetScrollLeft = Math.max(0, Math.min($modelNaviList[0].scrollWidth - listWidth, targetScrollLeft));
+
+                  $modelNaviList.stop().animate({ scrollLeft: targetScrollLeft }, 150);
+              }
+
+              function scrollToAnchor(index) {
+                  currentAnchorIdx = index;
+                  setActiveAnchor(); // Set active immediately
+
+                  const sectionPosY = getAnchorSectionPos(index);
+                  if (sectionPosY === 0 && index !== 0) return;
+
+                   // Always calculate offset based on potential sticky nav height
+                   const stickyNavHeight = (headerProps['modelNavH'] || $modelNav.outerHeight() || 0);
+                   const topVal = sectionPosY - stickyNavHeight + 2; // Offset by model nav height
+
+                  $window.off('scroll.anchor');
+
+                   // Use GSAP ScrollToPlugin for potentially smoother scroll integrated with ScrollTrigger
+                   gsap.to(window, {
+                       duration: 0.6, // Adjust duration
+                       scrollTo: { y: topVal, autoKill: true }, // autoKill true might be better here
+                       ease: "power2.inOut",
+                       onComplete: () => {
+                           setTimeout(() => {
+                               $window.on('scroll.anchor', handleAnchorScroll);
+                               updateActiveAnchor(); // Final check
+                           }, 50);
+                       }
+                   });
+
+                   // Fallback jQuery animation if ScrollToPlugin is not preferred or loaded
+                   /*
+                   $('html, body').stop().animate({ scrollTop: topVal }, 500, () => {
+                       setTimeout(() => {
+                           $window.on('scroll.anchor', handleAnchorScroll);
+                           updateActiveAnchor(); // Final check after scroll
+                       }, 50);
+                   });
+                   */
+              }
+
+              function handleAnchorScroll() {
+                  getIsAnchorDown();
+                  updateActiveAnchor();
+              }
+
+              function updateModelNavScrollProgress() {
+                   if (!$modelNavColorBar.length) return;
+                  let progress = $window.scrollTop() / Math.max(1, $body[0].scrollHeight - $window.height());
+                  progress = Math.max(0, Math.min(1, progress));
+                  $modelNavColorBar.css('--model_nav_color_scorll', progress);
+              }
+
+
+              // --- Overlap Cards Function ---
+              function overlapCards(id, root, textAnimation) {
+                const $container = root.container ? $(root.container) : $(root);
+                const $contents = root.container ? $(root.contents) : $container;
+                const $infos = $contents.find(".overlap_cards_info");
+                const $infoInrs = $contents.find(".overlap_cards_info_inr");
+                const $images = $contents.find(".overlap_cards_img_inr");
+                const $imagesImgWrap = $contents.find(".overlap_cards_img_wrap");
+                const $imagesImgs = $contents.find(".overlap_cards_img img");
+                const $overlapTabs = $contents.find(".overlap_cards_tab");
+                const overlapBtn = ".section_btn";
+                const videoBtn = ".replay_btn_toggle";
+                const imagesNum = $images.length;
+
+                if (imagesNum === 0) return;
+
+                const cardsTl = gsap.timeline();
+                let totalT = window.innerHeight * 0.5 * imagesNum;
+                 totalT = Math.max(totalT, window.innerHeight * 1.5); // Ensure decent scroll duration
+
+                 const currentModelNavHeight = $header.hasClass('model-nav-fixed') ? (headerProps['modelNavH'] || $modelNav.outerHeight() || 0) : 0;
+
+                const st = ScrollTrigger.create({
+                    id: `overlapCards-${id}`,
+                    trigger: $container[0],
+                    pin: true, scrub: true, anticipatePin: 1,
+                    start: () => `top top+=${currentModelNavHeight}`, // Adjust start based on sticky nav
+                    end: () => `+=${totalT}`,
+                    animation: cardsTl,
+                    // markers: true // for debugging
+                });
+
+                gsap.set($imagesImgWrap, { y: 0 });
+                gsap.set($infos.not(':first-child'), { opacity: 0, y: 50 });
+                gsap.set($infos.first().find('.overlap_cards_info_inr'), { opacity: 1, y: 0 });
+
+                cardsTl.addLabel('moveImg')
+                       .to($imagesImgWrap, {
+                            y: () => `-${$imagesImgWrap.height() - window.innerHeight + currentModelNavHeight + 20}`, // Adjust end position considering nav and some padding
+                            duration: 1, ease: "none"
+                       });
+
+                $images.each(function(idx) {
+                    if (idx === 0) return;
+                    const $currentInfo = $infos.eq(idx);
+                    const $prevInfo = $infos.eq(idx - 1);
+                    const $currentInfoInr = $infoInrs.eq(idx);
+                    const $prevInfoInr = $infoInrs.eq(idx - 1);
+
+                    const startTime = `moveImg+=${(idx / imagesNum) * 0.9}`;
+                    const duration = 0.4 / imagesNum;
+
+                    cardsTl.addLabel(`info-${idx}`, startTime)
+                           .to($prevInfo, {
+                                opacity: 0, y: -50, duration: duration * 0.8, ease: 'power1.in'
+                           }, `info-${idx}`)
+                           .fromTo($currentInfo, {
+                                opacity: 0, y: 50, zIndex: idx
+                           }, {
+                                opacity: 1, y: 0, visibility: 'visible', duration: duration, ease: 'power1.out'
+                           }, `info-${idx}+=${duration * 0.2}`);
+                });
+
+                // Accessibility for Overlap Cards
+                if ($window.width() > DESKTOP_BREAKPOINT) {
+                    const totalScroll = st.end - st.start;
+                    if (totalScroll <= 0) return;
+
+                    let focusTargets = [];
+                    $overlapTabs.each((index, el) => {
+                        focusTargets.push(el);
+                        const $parentInfo = $(el).closest('.overlap_cards_info');
+                        const $buttons = $parentInfo.find(overlapBtn + ', ' + videoBtn);
+                        $buttons.each((_, btn) => focusTargets.push(btn));
+                    });
+
+                    $(focusTargets).off('.overlapFocus').on('focus.overlapFocus', function() {
+                        const $focusedElement = $(this);
+                        let targetIndex = -1;
+                        $overlapTabs.each((index, tabEl) => {
+                            if ($.contains($(tabEl).closest('.overlap_cards_info')[0], $focusedElement[0])) {
+                                targetIndex = index;
+                                return false;
+                            }
+                        });
+
+                        if (targetIndex !== -1) {
+                            const progress = targetIndex / Math.max(1, imagesNum - 1);
+                            const targetScroll = st.start + totalScroll * progress;
+                            gsap.to(window, {
+                                scrollTo: { y: targetScroll, autoKill: false }, duration: 0.5, ease: 'power2.inOut', overwrite: true
+                            });
+                        }
+                    });
+                }
+             } // end overlapCards
+
+
+        // --- Event Listeners ---
+
+        // Window Resize
+        $window.on('resize.app', function() {
+          if (isMenuOpen) resetMainMenuState();
+          if ($window.width() > DESKTOP_BREAKPOINT) setEqualCardHeight();
+          else if($modelCards.length) $modelCards.css('height', '');
+                  updateHeaderOnResize(); // Update header state on resize
+                  ScrollTrigger.refresh(); // Refresh GSAP ScrollTriggers
+        });
+
+        // Main Menu Toggle Button Click
+        $menuToggleButton.on('click', toggleMainMenu);
+
+        // Search Input Label Handling
+        $mobileSearchInput.on('focus input', () => $mobileSearchLabel.hide()).on('blur', () => checkInputValue($mobileSearchInput, $mobileSearchLabel));
+        $desktopSearchInput.on('focus input', () => $desktopSearchLabel.hide()).on('blur', () => checkInputValue($desktopSearchInput, $desktopSearchLabel));
+
+               // Header Sticky Scroll Listener
+               $window.on('scroll.header', headerScrollFunc);
+
+               // Model Navigation Listeners
+               $modelNavMenuBtns.on('click', function(e) {
+                   e.preventDefault();
+                   const index = $modelNavMenuBtns.index(this);
+                   scrollToAnchor(index);
+               });
+               $window.on('scroll.anchor', handleAnchorScroll);
+               $window.on('scroll.progress', updateModelNavScrollProgress);
+
+
+        // --- Initial Setup & GSAP Animations ---
+              // Initial calculations and checks
+              setHeaderScrollOpts();
+              checkInputValue($mobileSearchInput, $mobileSearchLabel);
+              checkInputValue($desktopSearchInput, $desktopSearchLabel);
+              checkHeaderTopScroll();
+              headerScrollLayout(); // Set initial scroll layout
+
+              if ($anchorSections.length > 0) {
+                  updateActiveAnchor();
+                  updateModelNavScrollProgress();
+              }
+
+              // Trigger resize once on load for calculations
+              $window.trigger('resize.app');
+
+
+              // --- GSAP ScrollTrigger Animations Setup ---
+                // 1. Overview Section Animation
+                if ($overviewCover.length) {
+                    const overviewTl = gsap.timeline({ paused: true });
+                    const overviewSt = ScrollTrigger.create({
+                        trigger: $overviewCover[0], start: 'top top', end: 'bottom top',
+                        pin: true, scrub: true, animation: overviewTl, anticipatePin: 1, /* markers: true */
+                    });
+                    const buildOverviewTimeline = ($img) => {
+                         if (!$img || !$img.length) return; // Check if image exists
+                        overviewTl.clear().addLabel('delay', 0)
+                            .to($overviewTitle, { opacity: 0, duration: 0.4 }, 'delay-=0.4')
+                            .fromTo($overviewDescBox, { opacity: 0 }, { opacity: 1, duration: 0.4 }, 'delay+=0.35')
+                            .fromTo($img, { scale: 1.2 }, { scale: 1, duration: 1, ease: 'none' }, 'delay')
+                            .fromTo($overviewDimmed, { opacity: 0 }, { opacity: 1, duration: 1, ease: 'none' }, 'delay')
+                            .to($overviewContent, { yPercent: -50, duration: 1, ease: 'none' }, 'delay');
+                        // No need to refresh here if timeline structure doesn't change drastically
+                    };
+                     matchMedia.add("(min-width: 1024px)", () => buildOverviewTimeline($overviewBgImgPc));
+                     matchMedia.add("(max-width: 1023px)", () => buildOverviewTimeline($overviewBgImgMo));
+
+                     const nextSectionTrigger = $overviewCover.closest('.w_bg').next('.w_bg')[0]; // Find next w_bg sibling
+                     if (nextSectionTrigger) {
+                         gsap.to($overviewDescBox, {
+                             opacity: 0, duration: 0.5, ease: 'none',
+                             scrollTrigger: {
+                                 trigger: nextSectionTrigger,
+                                 start: 'top bottom', end: 'top 75%', // Adjust end point
+                                 scrub: true, /* markers: {startColor: "orange", endColor: "purple"} */
+                             }
+                         });
+                     }
+                    $overviewTitle.on('focus', () => overviewSt?.scroll(overviewSt.start));
+                    $overviewDescBox.on('focus', () => overviewSt?.scroll(overviewSt.end));
+                }
+
+
+                // 2. Inspiration Section Parallax
+                if ($inspirationSection.length && $chargingImg.length && $chargingBox.length) {
+                    const inspirationTl = gsap.timeline();
+                    ScrollTrigger.create({
+                        trigger: $inspirationSection[0], start: 'top bottom', end: () => `bottom top+=${window.innerHeight * 0.2}`, // Adjust end calculation
+                        scrub: 0.3, animation: inspirationTl, /* markers: {startColor: "green", endColor: "red"} */
+                    });
+                     matchMedia.add('(min-width: 1024px)', () => { inspirationTl.clear().to($chargingImg, { yPercent: -15, ease: 'none' }).to($chargingBox, { yPercent: -10, ease: 'none' }, "<"); }, $inspirationSection[0]); // Scope listener
+                     matchMedia.add("(max-width: 1023px)", () => { inspirationTl.clear().to($chargingImg, { yPercent: -10, ease: 'none' }).to($chargingBox, { yPercent: -5, ease: 'none' }, "<"); }, $inspirationSection[0]); // Scope listener
+                }
+
+
+                // 3. Exterior Design Intro Animation
+                if ($exteriordesignIntro.length) {
+                    let exteriorIntroTl = gsap.timeline(); // Use let for potential reassignment in matchMedia
+                    let stExterior;
+
+                    matchMedia.add("(min-width: 1024px)", () => {
+                        exteriorIntroTl.clear();
+                         stExterior = ScrollTrigger.create({
+                            trigger: $exteriordesignIntro[0], pin: true, scrub: true, anticipatePin: 1,
+                            start: 'top top', end: `+=${window.innerHeight * 2}`, animation: exteriorIntroTl, /* markers: {startColor: "blue", endColor: "cyan"} */
+                        });
+                         exteriorIntroTl.set($exteriordesignIntroImgs, { xPercent: -18 }).to($exteriordesignIntroDimmed, { opacity: 0 }).to($exteriordesignHeadline, { opacity: 0, yPercent: -63, duration: 0.6 }, "<").to($exteriordesignIntroImgs, { xPercent: 0, duration: 0.6 }, "<").to($exteriordesignIntroImgDivs.eq(1), { opacity: 1 }).to($exteriordesignTexts.eq(0), { y: 0, opacity: 1, duration: 0.3 }, "<+=0.3").to($exteriordesignTextDimmed.eq(0), { opacity: 1, duration: 0.3 }, "<").to($exteriordesignIntroImgDivs.eq(0), { opacity: 0 });
+                         $exteriordesignTexts.eq(0).on('focus.exterior', () => stExterior?.scroll(stExterior.end)); // Scroll to end of pin
+
+                         return () => { // Cleanup function for this breakpoint
+                              $exteriordesignTexts.eq(0).off('focus.exterior');
+                              stExterior?.kill(); // Kill ScrollTrigger when leaving breakpoint
+                              exteriorIntroTl.kill(); // Kill timeline
+                         }
+                    }, $exteriordesignIntro[0]);
+
+                     matchMedia.add("(max-width: 1023px)", () => {
+                         exteriorIntroTl.clear();
+                         stExterior = ScrollTrigger.create({
+                            trigger: $exteriordesignIntro[0], pin: true, scrub: true, anticipatePin: 1,
+                            start: 'top top', end: `+=${window.innerHeight * 2}`, animation: exteriorIntroTl, /* markers: {startColor: "blue", endColor: "cyan"} */
+                         });
+                         exteriorIntroTl.set($exteriordesignIntroImgs, { xPercent: -35 }).to($exteriordesignIntroDimmed, { opacity: 0, duration: 0.5 }).to($exteriordesignHeadline, { opacity: 0, yPercent: -40, duration: 0.5 }, "<").to($exteriordesignIntroImgs, { xPercent: 0, duration: 0.5 }, "<").to($exteriordesignIntroImgDivs.eq(1), { opacity: 1 }).to($exteriordesignTexts.eq(0), { y: 0, opacity: 1, duration: 0.3 }, "<+=0.3").to($exteriordesignTextDimmed.eq(0), { opacity: 1, duration: 0.3 }, "<").to($exteriordesignIntroImgDivs.eq(0), { opacity: 0 });
+                         $exteriordesignTexts.eq(0).on('focus.exterior', () => stExterior?.scroll(stExterior.end)); // Scroll to end of pin
+
+                         return () => { // Cleanup function
+                              $exteriordesignTexts.eq(0).off('focus.exterior');
+                              stExterior?.kill();
+                              exteriorIntroTl.kill();
+                         }
+                     }, $exteriordesignIntro[0]);
+                }
+
+
+                // 4. Exterior Design Item Dimmed Fade
+                if ($exteriordesignItems.length && $exteriordesignItemDimmed.length) {
+                    gsap.to($exteriordesignItemDimmed, {
+                        opacity: 0, scrollTrigger: {
+                            trigger: $exteriordesignItems.eq(0)[0], scrub: true, start: "top 75%", end: "bottom bottom", /* markers: {startColor: "pink", endColor: "magenta"} */
+                        }
+                    });
+                }
+
+
+                // 5. Exterior Design Item Text Animation
+                 if ($exteriordesignItems.length > 0 && $exteriordesignTexts.length > 1) {
+                     let exteriorItemTl = gsap.timeline();
+                     const $itemTrigger = $exteriordesignItems.eq(0);
+                     const $targetText = $exteriordesignTexts.eq(1);
+                     const $targetDimmed = $exteriordesignTextDimmed.eq(1);
+                     let stText;
+
+                     matchMedia.add("(min-width: 1024px)", () => { // Apply only on desktop?
+                         exteriorItemTl.clear();
+                          stText = ScrollTrigger.create({
+                             trigger: $itemTrigger[0], pin: true, scrub: true, anticipatePin: 1,
+                             start: 'top top', end: `+=${window.innerHeight * 1.5}`, animation: exteriorItemTl, /* markers: {startColor: "lime", endColor: "yellow"} */
+                         });
+                         exteriorItemTl.to($targetText, { opacity: 1 }).to($targetDimmed, { opacity: 1 }, "<");
+                         $targetText.on('focus.exteriorItem', () => stText?.scroll(stText.end));
+
+                          return () => { // Cleanup
+                              $targetText.off('focus.exteriorItem');
+                              stText?.kill();
+                              exteriorItemTl.kill();
+                          }
+                      }, $itemTrigger[0]);
+                 }
+
+
+                // 6. Full Visual Image Headline Animation
+                if ($fullVisualIntro.length && $fullVisualHeadlineDesc.length) {
+                    const fullVisualTl = gsap.timeline();
+                    ScrollTrigger.create({
+                        trigger: $fullVisualIntro[0], pin: true, scrub: true, anticipatePin: 1,
+                        start: () => `top top+=${$header.hasClass('model-nav-fixed') ? (headerProps['modelNavH'] || $modelNav.outerHeight() || 0) : ($header.outerHeight() || 60)}`, // Adjust start based on sticky state
+                        end: () => `+=${window.innerHeight * 1.5}`,
+                        animation: fullVisualTl, /* markers: {startColor: "red", endColor: "orange"} */
+                    });
+                     fullVisualTl.fromTo($fullVisualHeadlineDesc,
+                         { yPercent: 0, opacity: 0 },
+                         { yPercent: -50, opacity: 1, duration: 0.3 }
+                     ).to($fullVisualHeadlineDesc, { duration: 0.7 }); // Hold
+                }
+
+
+                // 7. Interior Design Image Zoom
+                if ($interiordesignImg.length) {
+                    ScrollTrigger.create({
+                        trigger: $interiordesignImg[0], start: 'top bottom-=25%',
+                        toggleClass: { targets: $interiordesignImg[0], className: "zoom" },
+                        once: true, /* markers: {startColor: "purple", endColor: "black"} */
+                    });
+                }
+
+
+                // 8. Overlap Cards Initialization (PC only)
+                let overlapST; // To store instance
+                 function initOverlapCardsPC() {
+                     overlapST = ScrollTrigger.getById('overlapCards-pc-interior-details');
+                     overlapST?.kill(); // Kill existing instance before re-creating
+                     if ($overlapCardsContainer.length && $window.width() > DESKTOP_BREAKPOINT) {
+                         overlapCards('pc-interior-details', $overlapCardsContainer);
+                     }
+                 }
+                 initOverlapCardsPC(); // Initial call
+                 $window.on('resize.overlap', initOverlapCardsPC); // Re-init on resize
+
+
+      }); // End $(function())
+    </script>
+  </body>
+</html>
